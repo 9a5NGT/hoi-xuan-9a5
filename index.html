@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9A5 - CUỐN GÌ CŨNG DÍNH | THCS Nguyễn Gia Thiều</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <style>
+        :root {
+            --primary: #2d5a27; 
+            --secondary: #f39c12;
+            --light: #fdfaf5;
+            --dark: #1e391a;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background-color: var(--light); color: var(--dark); }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1528443355554-f87c6778f640?q=80&w=2000') center/cover;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: white; padding: 20px;
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.5rem; font-weight: 300; margin-bottom: 30px; }
+
+        /* Badge thông tin nhanh */
+        .info-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-bottom: 20px;
+        }
+
+        /* Menu Section */
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--primary); display: inline-block; border-bottom: 3px solid var(--secondary); }
+
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px; padding: 20px; max-width: 1200px; margin: auto;
+        }
+
+        .card {
+            background: white; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s; position: relative;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card-content { padding: 20px; }
+        .card-price { color: var(--secondary); font-size: 1.5rem; font-weight: bold; }
+
+        /* Đặc điểm nổi bật */
+        .highlights { background: var(--primary); color: white; padding: 60px 20px; text-align: center; }
+        .highlight-grid { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 1000px; margin: 40px auto 0; }
+        @media (max-width: 768px) { .highlight-grid { grid-template-columns: 1fr; gap: 30px; } }
+
+        /* Button */
+        .btn {
+            padding: 15px 35px; background: var(--secondary); color: white;
+            text-decoration: none; border-radius: 50px; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+            transition: 0.3s;
+        }
+        .btn:hover { background: #e67e22; transform: scale(1.05); }
+
+        footer { padding: 50px 20px; text-align: center; background: #eee; }
+    </style>
+</head>
+<body>
+
+    <section class="hero animate__animated animate__fadeIn">
+        <div class="info-badge">🏮 THCS NGUYỄN GIA THIỀU • 06.02.2026</div>
+        <h1 class="animate__animated animate__zoomIn">9A5 - CUỐN GÌ CŨNG DÍNH</h1>
+        <p>"Gia Thiều có hội, 9A5 có Gỏi. Ăn là ghiền, không phiền túi tiền!"</p>
+        <a href="#menu" class="btn">KHÁM PHÁ THỰC ĐƠN</a>
+    </section>
+
+    <div class="container" style="padding: 80px 20px;">
+        <div class="section-title">
+            <h2>Gói Trọn Vị Xuân</h2>
+        </div>
+        <div style="max-width: 800px; margin: auto; text-align: center; font-size: 1.2rem; line-height: 1.8;">
+            <p>Chào các bạn học sinh Nguyễn Gia Thiều! Giữa những gian hàng đồ chiên ngập dầu mỡ, lớp 9A5 mang đến một "làn gió mới" thanh khiết và đậm chất truyền thống. Mỗi cuốn gỏi là sự kết hợp của tôm tươi, thịt sạch và rau xanh mát mắt, chấm cùng tương đen bơ đậu phộng đặc chế.</p>
+        </div>
+    </div>
+
+    <section id="menu" style="background: #fff; padding: 80px 0;">
+        <div class="section-title">
+            <h2>Thực Đơn Đặc Sắc</h2>
+        </div>
+        <div class="menu-container">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Gỏi Cuốn Tôm Thịt</h3>
+                    <p>Hương vị truyền thống, tôm tươi đỏ au quyện cùng thịt ba chỉ thái mỏng.</p>
+                    <div class="card-price">5.000đ</div>
+                </div>
+            </div>
+            <div class="card" style="border: 2px solid var(--secondary);">
+                <div class="card-content">
+                    <span style="background: var(--secondary); color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.8rem;">BÁN CHẠY</span>
+                    <h3>Tai Heo Giòn Sần Sật</h3>
+                    <p>Lạ miệng với tai heo luộc giòn tan, ăn kèm rau thơm cực cuốn.</p>
+                    <div class="card-price">5.000đ</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Combo Tình Bạn</h3>
+                    <p>03 Cuốn tự chọn + 01 Ly Trà Tắc khổng lồ giải nhiệt mùa xuân.</p>
+                    <div class="card-price">15.000đ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="highlights">
+        <h2>Tại sao nên ghé gian hàng 9A5?</h2>
+        <div class="highlight-grid">
+            <div>
+                <h3>🌿 TƯƠI SẠCH</h3>
+                <p>Nguyên liệu được chọn lọc và chuẩn bị ngay trong sáng sớm.</p>
+            </div>
+            <div>
+                <h3>🥜 SỐT BÍ TRUYỀN</h3>
+                <p>Tương đen bơ đậu phộng hành phi béo ngậy không đâu có.</p>
+            </div>
+            <div>
+                <h3>📸 VIEW ĐẸP</h3>
+                <p>Gian hàng trang trí phong cách mẹt tre lá chuối, tha hồ check-in.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p><strong>LỚP 9A5 - NIỀM TỰ HÀO CỦA NGUYỄN GIA THIỀU</strong></p>
+        <p>Hẹn gặp bạn vào lúc 07:00 ngày 06.02.2026 tại Gian hàng số 05 nhé!</p>
+        <div style="margin-top: 20px;">
+            <i class="fab fa-facebook fa-2x" style="margin: 0 10px;"></i>
+            <i class="fab fa-instagram fa-2x" style="margin: 0 10px;"></i>
+        </div>
+    </footer>
+
+</body>
+</html>
