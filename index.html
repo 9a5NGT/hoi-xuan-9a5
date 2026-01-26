@@ -72,7 +72,7 @@
         .card h3 { color: var(--primary); font-size: 1.6rem; margin-bottom: 10px; }
         .card-price { color: var(--secondary); font-weight: bold; font-size: 1.4rem; }
 
-        /* LÝ DO CHỌN GIAN HÀNG (HIGHLIGHTS) */
+        /* LÝ DO CHỌN GIAN HÀNG */
         .highlights { background: var(--primary); color: white; padding: 80px 20px; text-align: center; }
         .highlight-grid { 
             display: grid; grid-template-columns: repeat(3, 1fr); 
@@ -82,7 +82,7 @@
         .h-item h3 { font-size: 1.5rem; margin-bottom: 10px; }
         .h-item p { font-size: 1rem; opacity: 0.9; }
 
-        /* MODAL (HỘP THÔNG TIN) */
+        /* MODAL CHUNG */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); display: none;
@@ -103,6 +103,13 @@
             cursor: pointer; color: #333; z-index: 10;
         }
 
+        /* INPUT TRONG LOGIN */
+        .login-input {
+            width: 100%; padding: 12px; margin-bottom: 15px; 
+            border-radius: 8px; border: 1px solid #ddd; outline: none;
+        }
+        .login-input:focus { border-color: var(--secondary); }
+
         /* MOBILE RESPONSIVE */
         @media (max-width: 768px) {
             .hero h1 { font-size: 3.5rem; }
@@ -117,7 +124,8 @@
         .btn {
             padding: 15px 35px; background: var(--secondary); color: white;
             text-decoration: none; border-radius: 50px; font-weight: bold;
-            display: inline-block; transition: 0.3s; box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            display: inline-block; transition: 0.3s; border: none; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
         }
         .btn:hover { transform: scale(1.05); background: #e67e22; }
     </style>
@@ -127,8 +135,11 @@
     <section class="hero">
         <div class="info-badge">THCS NGUYỄN GIA THIỀU • 06.02.2026</div>
         <h1 class="animate__animated animate__fadeInDown">9A5 - CUỐN GÌ CŨNG DÍNH</h1>
-        <p class="animate__animated animate__fadeInUp">"Xuân có hội, 9A5 có Gỏi.Cuốn bao dính, Ăn là ghiền!"</p>
-        <a href="#menu" class="btn">KHÁM PHÁ THỰC ĐƠN</a>
+        <p class="animate__animated animate__fadeInUp">"Xuân có hội, 9A5 có Gỏi. Cuốn bao dính, Ăn là ghiền!"</p>
+        <div class="animate__animated animate__fadeInUp">
+            <a href="#menu" class="btn">KHÁM PHÁ THỰC ĐƠN</a>
+            <button onclick="toggleLoginModal()" class="btn" style="background: rgba(255,255,255,0.2); border: 1px solid white; margin-left: 10px;">ĐĂNG NHẬP</button>
+        </div>
     </section>
 
     <div class="container">
@@ -210,25 +221,25 @@
     </div>
 
     <div class="modal-overlay" id="login-modal">
-    <div class="modal-content" style="max-width: 400px; padding: 30px; flex-direction: column;">
-        <span class="close-btn" onclick="toggleLoginModal()">&times;</span>
-        <h2 style="text-align: center; margin-bottom: 20px;">Thành viên 9A5</h2>
-        
-        <input type="email" placeholder="Email" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd;">
-        <input type="password" placeholder="Mật khẩu" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd;">
-        
-        <button class="btn" style="width: 100%; border: none; cursor: pointer;">ĐĂNG NHẬP</button>
-        
-        <div style="text-align: center; margin: 20px 0; color: #777; position: relative;">
-            <span style="background: #fff; padding: 0 10px; position: relative; z-index: 1;">Hoặc đăng nhập bằng</span>
-            <hr style="position: absolute; top: 50%; width: 100%; border: 0; border-top: 1px solid #eee;">
-        </div>
+        <div class="modal-content" style="max-width: 400px; padding: 30px; flex-direction: column;">
+            <span class="close-btn" onclick="toggleLoginModal()">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 20px; color: var(--primary);">Thành viên 9A5</h2>
+            
+            <input type="email" placeholder="Email" class="login-input">
+            <input type="password" placeholder="Mật khẩu" class="login-input">
+            
+            <button class="btn" style="width: 100%; margin-bottom: 15px;">ĐĂNG NHẬP</button>
+            
+            <div style="text-align: center; margin: 10px 0; color: #777; position: relative;">
+                <span style="background: #fff; padding: 0 10px; position: relative; z-index: 1;">Hoặc</span>
+                <hr style="position: absolute; top: 50%; width: 100%; border: 0; border-top: 1px solid #eee;">
+            </div>
 
-        <div id="buttonDiv" style="display: flex; justify-content: center;"></div>
-        
-        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
-            Chưa có tài khoản? <a href="#" style="color: var(--secondary);">Đăng ký ngay</a>
-        </p>
+            <div id="buttonDiv" style="display: flex; justify-content: center;"></div>
+            
+            <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+                Chưa có tài khoản? <a href="#" style="color: var(--secondary); font-weight: bold; text-decoration: none;">Đăng ký ngay</a>
+            </p>
         </div>
     </div>
 
@@ -271,6 +282,7 @@
             }
         };
 
+        // --- HÀM CHO MODAL THỰC ĐƠN ---
         function showDetail(id) {
             const item = menuData[id];
             document.getElementById('modal-title').innerText = item.title;
@@ -278,29 +290,36 @@
             document.getElementById('modal-price').innerText = item.price;
             document.getElementById('modal-img').src = item.img;
             document.getElementById('modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Khóa cuộn trang khi mở popup
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Mở lại cuộn trang
+            document.body.style.overflow = 'auto';
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('modal');
-            if (event.target == modal) { closeModal(); }
-        }
-
-        // Hàm đóng/mở Modal đăng nhập
+        // --- HÀM CHO MODAL ĐĂNG NHẬP ---
         function toggleLoginModal() {
             const loginModal = document.getElementById('login-modal');
-            loginModal.style.display = (loginModal.style.display === 'flex') ? 'none' : 'flex';
+            const isOpening = (loginModal.style.display !== 'flex');
+            loginModal.style.display = isOpening ? 'flex' : 'none';
+            document.body.style.overflow = isOpening ? 'hidden' : 'auto';
         }
 
-        // Cấu hình Google Login
+        // Đóng modal khi click ra ngoài vùng trắng
+        window.onclick = function(event) {
+            const menuModal = document.getElementById('modal');
+            const loginModal = document.getElementById('login-modal');
+            
+            if (event.target == menuModal) { closeModal(); }
+            if (event.target == loginModal) { toggleLoginModal(); }
+        }
+
+        // --- CẤU HÌNH GOOGLE LOGIN ---
         window.onload = function () {
+            // Nhớ thay YOUR_GOOGLE_CLIENT_ID bằng ID thật của bạn
             google.accounts.id.initialize({
-                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com", // Bạn cần lấy ID này từ Google Console
+                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com", 
                 callback: handleCredentialResponse
             });
             google.accounts.id.renderButton(
@@ -311,10 +330,9 @@
 
         function handleCredentialResponse(response) {
             console.log("Encoded JWT ID token: " + response.credential);
-            alert("Đăng nhập thành công! Chào mừng bạn đến với gian hàng 9A5.");
+            alert("Đăng nhập thành công! Chào mừng bạn đã ghé thăm 9A5.");
             toggleLoginModal();
         }
     </script>
 </body>
 </html>
-
