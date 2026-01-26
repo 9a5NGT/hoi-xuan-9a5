@@ -7,6 +7,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <style>
         /* FONT CHỮ */
@@ -208,6 +209,29 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="login-modal">
+    <div class="modal-content" style="max-width: 400px; padding: 30px; flex-direction: column;">
+        <span class="close-btn" onclick="toggleLoginModal()">&times;</span>
+        <h2 style="text-align: center; margin-bottom: 20px;">Thành viên 9A5</h2>
+        
+        <input type="email" placeholder="Email" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd;">
+        <input type="password" placeholder="Mật khẩu" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd;">
+        
+        <button class="btn" style="width: 100%; border: none; cursor: pointer;">ĐĂNG NHẬP</button>
+        
+        <div style="text-align: center; margin: 20px 0; color: #777; position: relative;">
+            <span style="background: #fff; padding: 0 10px; position: relative; z-index: 1;">Hoặc đăng nhập bằng</span>
+            <hr style="position: absolute; top: 50%; width: 100%; border: 0; border-top: 1px solid #eee;">
+        </div>
+
+        <div id="buttonDiv" style="display: flex; justify-content: center;"></div>
+        
+        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+            Chưa có tài khoản? <a href="#" style="color: var(--secondary);">Đăng ký ngay</a>
+        </p>
+        </div>
+    </div>
+
     <footer style="text-align: center; padding: 60px 20px; background: #eee;">
         <p><strong>LỚP 9A5 - GIAN HÀNG SỐ 04</strong></p>
         <p>Hội Xuân THCS Nguyễn Gia Thiều • 06.02.2026</p>
@@ -266,6 +290,31 @@
             const modal = document.getElementById('modal');
             if (event.target == modal) { closeModal(); }
         }
+
+        // Hàm đóng/mở Modal đăng nhập
+        function toggleLoginModal() {
+            const loginModal = document.getElementById('login-modal');
+            loginModal.style.display = (loginModal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        // Cấu hình Google Login
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com", // Bạn cần lấy ID này từ Google Console
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("buttonDiv"),
+                { theme: "outline", size: "large", width: "250" } 
+            );
+        };
+
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            alert("Đăng nhập thành công! Chào mừng bạn đến với gian hàng 9A5.");
+            toggleLoginModal();
+        }
     </script>
 </body>
 </html>
+
