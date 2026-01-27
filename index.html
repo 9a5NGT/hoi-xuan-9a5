@@ -385,7 +385,7 @@
         }
     </script> -->
     <script type="module">
-    // 1. Import Firebase
+    // 1. IMPORT FIREBASE
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
@@ -402,7 +402,81 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // --- DỮ LIỆU MÓN ĂN ---
+    // --- BIẾN TRẠNG THÁI ---
+    let currentMode = 'login';
+
+    // --- ĐƯA CÁC HÀM GIAO DIỆN RA NGOÀI (SỬA LỖI IS NOT DEFINED) ---
+
+    window.openLoginModal = function(mode) {
+        currentMode = mode;
+        updateAuthUI();
+        document.getElementById('login-modal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.toggleLoginModal = function() {
+        document.getElementById('login-modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    };
+
+    window.switchAuthMode = function() {
+        currentMode = (currentMode === 'login') ? 'register' : 'login';
+        updateAuthUI();
+    };
+
+    function updateAuthUI() {
+        const title = document.getElementById('auth-title');
+        const submitBtn = document.getElementById('auth-submit');
+        const registerFields = document.getElementById('register-fields');
+        const switchText = document.getElementById('auth-switch-text');
+        const authLink = document.getElementById('auth-link');
+
+        if (currentMode === 'register') {
+            title.innerText = "Đăng ký thành viên";
+            submitBtn.innerText = "ĐĂNG KÝ NGAY";
+            registerFields.style.display = "block";
+            switchText.innerText = "Đã có tài khoản?";
+            authLink.innerText = "Đăng nhập ngay";
+        } else {
+            title.innerText = "Đăng nhập";
+            submitBtn.innerText = "ĐĂNG NHẬP";
+            registerFields.style.display = "none";
+            switchText.innerText = "Chưa có tài khoản?";
+            authLink.innerText = "Đăng ký ngay";
+        }
+    }
+
+    // Hàm lưu Database
+    window.handleManualAuth = function() {
+        const name = document.getElementById('reg-name').value;
+        const email = document.getElementById('auth-email').value;
+        const pass = document.getElementById('auth-pass').value;
+
+        if (!email || !pass) {
+            alert("Điền email và mật khẩu bạn ơi!");
+            return;
+        }
+
+        if (currentMode === 'register') {
+            const userRef = ref(db, 'users');
+            push(userRef, {
+                fullname: name || "Ẩn danh",
+                email: email,
+                password: pass,
+                time: new Date().toLocaleString()
+            }).then(() => {
+                alert("Đăng ký thành công!");
+                localStorage.setItem('user_9a5', JSON.stringify({name: name || email}));
+                location.reload();
+            });
+        } else {
+            alert("Đăng nhập thành công!");
+            localStorage.setItem('user_9a5', JSON.stringify({name: email}));
+            location.reload();
+        }
+    };
+
+    // Hàm hiển thị món ăn
     const menuData = {
         'tom-thit': { title: 'Gỏi Cuốn Tôm Thịt', desc: 'Tôm thịt tươi ngon, chấm tương đen.', price: '5.000đ', img: 'https://cdn.tgdd.vn/Files/2021/10/21/1392444/tong-hop-8-cach-lam-goi-cuon-ngon-hap-dan-sieu-de-lam-tai-nha-202110211125270560.jpg' },
         'nem-nuong': { title: 'Gỏi Cuốn Nem Nướng', desc: 'Nem nướng thơm lừng, chấm nước mắm chua ngọt.', price: '5.000đ', img: 'https://nemnuonghungviet.com/nemhungviet/uploads/2024/12/goi-cuon-nem-nuong.jpg' },
@@ -411,9 +485,6 @@
         'tai-heo': { title: 'Gỏi Cuốn Tai Heo', desc: 'Tai heo giòn sần sật, chấm mắm nêm.', price: '5.000đ', img: 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2024_1_20_638413447115599304_tai-heo-cuon-banh-trang.jpg' }
     };
 
-    // --- CÁC HÀM CẦN "PHƠI" RA NGOÀI ĐỂ HTML DÙNG ĐƯỢC ---
-
-    // 1. Hàm hiện chi tiết món ăn (Sửa lỗi bạn đang gặp)
     window.showDetail = function(id) {
         const item = menuData[id];
         if(!item) return;
@@ -425,41 +496,9 @@
         document.body.style.overflow = 'hidden';
     };
 
-    // 2. Hàm xử lý đăng ký lưu vào Firebase
-    window.handleManualAuth = function() {
-        const name = document.getElementById('reg-name').value;
-        const email = document.getElementById('auth-email').value;
-        const pass = document.getElementById('auth-pass').value;
-
-        if (!email || !pass) {
-            alert("Vui lòng điền đủ email và mật khẩu!");
-            return;
-        }
-
-        const userRef = ref(db, 'users');
-        push(userRef, {
-            fullname: name || "Ẩn danh",
-            email: email,
-            password: pass,
-            time: new Date().toLocaleString()
-        }).then(() => {
-            alert("Đăng ký thành công và đã lưu vào Database!");
-            localStorage.setItem('user_9a5', JSON.stringify({name: name || email}));
-            location.reload();
-        }).catch(err => alert("Lỗi Database: " + err.message));
-    };
-
-    // 3. Hàm đóng Modal
     window.closeModal = function() {
         document.getElementById('modal').style.display = 'none';
         document.body.style.overflow = 'auto';
-    };
-
-    // 4. Các hàm Google Login và Logout
-    window.handleCredentialResponse = function(response) {
-        const payload = JSON.parse(atob(response.credential.split('.')[1]));
-        localStorage.setItem('user_9a5', JSON.stringify({name: payload.name}));
-        location.reload();
     };
 
     window.logout = function() {
@@ -467,11 +506,19 @@
         location.reload();
     };
 
-    // Khởi tạo trang
+    window.handleCredentialResponse = function(response) {
+        const payload = JSON.parse(atob(response.credential.split('.')[1]));
+        localStorage.setItem('user_9a5', JSON.stringify({name: payload.name}));
+        location.reload();
+    };
+
+    // KHỞI TẠO
     window.onload = function () {
         const user = JSON.parse(localStorage.getItem('user_9a5'));
         if(user) {
-            document.getElementById('auth-buttons').innerHTML = `<span style="color:white; margin-right:10px;">Chào ${user.name}</span><button onclick="logout()" class="logout-btn">Thoát</button>`;
+            document.getElementById('auth-buttons').innerHTML = `
+                <span style="color:white; margin-right:10px;">Chào ${user.name}</span>
+                <button onclick="logout()" style="background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:20px; cursor:pointer;">Thoát</button>`;
         }
         
         google.accounts.id.initialize({
@@ -480,6 +527,12 @@
         });
         google.accounts.id.renderButton(document.getElementById("buttonDiv"), { theme: "outline", size: "large" });
     };
+
+    // Đóng modal khi click ra ngoài
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('modal')) closeModal();
+        if (event.target == document.getElementById('login-modal')) toggleLoginModal();
+    }
 </script>
 
 </html>
