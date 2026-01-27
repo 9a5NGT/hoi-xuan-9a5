@@ -385,91 +385,57 @@
         }
     </script> -->
     <script type="module">
-    // 1. Nhập thư viện Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    // 2. Cấu hình Firebase (Lấy từ ảnh image_8f7b3d.png của bạn)
     const firebaseConfig = {
         apiKey: "AIzaSyCg2qA0TODBVNpLCeX0zocuoSNsJTfztDE",
         authDomain: "hoixuan9a5.firebaseapp.com",
+        // DÒNG NÀY CỰC KỲ QUAN TRỌNG VỚI SERVER SINGAPORE:
         databaseURL: "https://hoixuan9a5-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "hoixuan9a5",
         storageBucket: "hoixuan9a5.firebasestorage.app",
         messagingSenderId: "344769438813",
-        appId: "1:344769438813:web:301866b870efc2df7fd9b4",
-        measurementId: "G-3NQH4GFB6V"
+        appId: "1:344769438813:web:301866b870efc2df7fd9b4"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // 3. Xử lý Đăng ký và lưu vào Database
+    // Đưa hàm ra ngoài window để các nút onclick trong HTML tìm thấy được
     window.handleManualAuth = function() {
-        const name = document.getElementById('reg-name')?.value || "Ẩn danh";
-        const email = document.querySelector('#login-modal input[type="email"]').value;
-        const pass = document.querySelector('#login-modal input[type="password"]').value;
+        const name = document.getElementById('reg-name').value;
+        const email = document.getElementById('auth-email').value;
+        const pass = document.getElementById('auth-pass').value;
 
         if (!email || !pass) {
-            alert("Vui lòng nhập email và mật khẩu!");
+            alert("Khang ơi, nhập thiếu rồi!");
             return;
         }
 
-        // Đẩy dữ liệu lên Firebase
+        console.log("Đang bắt đầu gửi dữ liệu...");
+
+        // Trỏ vào nhánh 'users'
         const userRef = ref(db, 'users');
         const newUserRef = push(userRef);
+        
         set(newUserRef, {
-            fullname: name,
+            fullname: name || "Ẩn danh",
             email: email,
             password: pass,
             time: new Date().toLocaleString()
-        }).then(() => {
-            alert("Đăng ký thành công! Dữ liệu đã lưu vào Database.");
-            localStorage.setItem('user_9a5', JSON.stringify({name: name}));
+        })
+        .then(() => {
+            console.log("Gửi thành công!");
+            alert("Dữ liệu đã nảy số trên Database rồi nhé!");
+            localStorage.setItem('user_9a5', JSON.stringify({name: name || email}));
             location.reload();
-        }).catch(err => alert("Lỗi: " + err.message));
-    };
-
-    // 4. Xử lý Google Login thành công
-    window.handleCredentialResponse = function(response) {
-        const payload = JSON.parse(atob(response.credential.split('.')[1]));
-        const user = { name: payload.name, picture: payload.picture };
-        
-        // Lưu thông tin Google vào Database luôn để quản lý
-        push(ref(db, 'google_users'), {
-            name: payload.name,
-            email: payload.email,
-            time: new Date().toLocaleString()
+        })
+        .catch((error) => {
+            console.error("Lỗi gửi Firebase:", error);
+            alert("Lỗi: " + error.message);
         });
-
-        localStorage.setItem('user_9a5', JSON.stringify(user));
-        alert("Chào mừng " + user.name + "!");
-        location.reload();
-    };
-
-    // 5. Logic hiển thị Menu và Logout
-    window.onload = function () {
-        const savedUser = JSON.parse(localStorage.getItem('user_9a5'));
-        if (savedUser) {
-            document.getElementById('auth-buttons').innerHTML = `
-                <div style="display:flex; align-items:center; gap:10px; background:rgba(0,0,0,0.5); padding:5px 15px; border-radius:50px;">
-                    <span style="color:white; font-weight:bold;">Chào ${savedUser.name}!</span>
-                    <button onclick="logout()" style="background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:20px; cursor:pointer;">Thoát</button>
-                </div>`;
-        }
-
-        // Khởi tạo nút Google (Dùng Client ID từ file JSON bạn gửi)
-        google.accounts.id.initialize({
-            client_id: "841259510226-c0lbbdn4vp2ummrcrsa9tups6d2mon4v.apps.googleusercontent.com",
-            callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(document.getElementById("buttonDiv"), { theme: "outline", size: "large" });
-    };
-
-    window.logout = function() {
-        localStorage.removeItem('user_9a5');
-        location.reload();
     };
 </script>
-</body>
+
 </html>
