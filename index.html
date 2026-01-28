@@ -123,16 +123,21 @@
             margin-top: -20px; position: relative; z-index: 5;
         }
 
-        .map-wrapper img {
-            width: 100%;
-            display: block;
-            transition: 0.5s;
-            cursor: zoom-in; /* Hiện hình kính lúp */
+        /* Modal cho Bản đồ - Toàn màn hình */
+        .modal-content.full-map {
+            max-width: 95vw; /* Rộng 95% màn hình */
+            height: 90vh;    /* Cao 90% màn hình */
+            display: flex;
+            flex-direction: column;
         }
-        .map-wrapper img:hover {
-            transform: scale(1.02);
-            filter: brightness(90%);
+        .full-map .modal-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain; /* Giữ nguyên tỉ lệ ảnh không bị méo */
+            background: #333;
         }
+        /* Ẩn phần thông tin khi xem bản đồ */
+        .full-map .modal-info { display: none; }
     </style>
 </head>
 <body>
@@ -609,19 +614,50 @@
             if (event.target == document.getElementById('login-modal')) toggleLoginModal();
         }
 
-        // Hàm phóng to bản đồ
+        // 1. Hàm phóng to bản đồ
         window.zoomMap = function() {
             const mainMapSrc = document.getElementById('map-img-main').src;
+            const modal = document.getElementById('modal');
+            const modalContent = modal.querySelector('.modal-content');
+
+            // Thêm class "full-map" để ảnh to ra và ẩn chữ đi
+            modalContent.classList.add('full-map');
             
-            // Tận dụng Modal có sẵn trong file của bạn
-            document.getElementById('modal-title').innerText = "SƠ ĐỒ GIAN HÀNG HỘI XUÂN";
-            document.getElementById('modal-desc').innerText = "Gian hàng 9A5 của tụi mình nằm ở vị trí số 3 nha!";
-            document.getElementById('modal-price').innerText = ""; // Ẩn giá tiền
             document.getElementById('modal-img').src = mainMapSrc;
+            modal.style.display = 'flex';
             
-            // Hiển thị modal
+            // KHÓA CUỘN TRANG
+            document.body.style.overflow = 'hidden'; 
+        };
+
+        // 2. Hàm đóng Modal (Dùng chung cho cả món ăn và bản đồ)
+        window.closeModal = function() {
+            const modal = document.getElementById('modal');
+            const modalContent = modal.querySelector('.modal-content');
+
+            modal.style.display = 'none';
+            // Xóa class phóng to để lần sau xem món ăn không bị lỗi
+            modalContent.classList.remove('full-map'); 
+            
+            // MỞ KHÓA CUỘN TRANG (Sửa lỗi của bạn ở đây)
+            document.body.style.overflow = 'auto'; 
+        };
+
+        // 3. Hàm xem chi tiết món ăn (Cũng phải có mở khóa cuộn)
+        window.showDetail = function(id) {
+            const item = menuData[id];
+            if(!item) return;
+            
+            // Đảm bảo không có class của bản đồ
+            document.getElementById('modal').querySelector('.modal-content').classList.remove('full-map');
+            
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-desc').innerText = item.desc;
+            document.getElementById('modal-price').innerText = item.price;
+            document.getElementById('modal-img').src = item.img;
+            
             document.getElementById('modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Chặn cuộn trang khi đang xem ảnh
+            document.body.style.overflow = 'hidden'; // Khóa cuộn khi xem món
         };
     </script>
 </body>
