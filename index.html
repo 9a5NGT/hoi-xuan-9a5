@@ -122,6 +122,17 @@
             padding: 10px 25px; border-radius: 50px; font-weight: bold; 
             margin-top: -20px; position: relative; z-index: 5;
         }
+
+        .map-wrapper img {
+            width: 100%;
+            display: block;
+            transition: 0.5s;
+            cursor: zoom-in; /* Hiện hình kính lúp */
+        }
+        .map-wrapper img:hover {
+            transform: scale(1.02);
+            filter: brightness(90%);
+        }
     </style>
 </head>
 <body>
@@ -166,8 +177,8 @@
         <section class="map-section">
             <div class="container">
                 <div class="section-title"><h2>Vị Trí Gian Hàng</h2></div>
-                <div class="map-wrapper">
-                    <img src="https://filethcs.hcm.shieldixcloud.com/UploadImages/news//2026/thcsnguyengiathieu/admin/2026_1/27/61949992813680587484537895478649237640618104n_2712026163.jpg?w=1130" alt="Sơ đồ gian hàng">
+                <div class="map-wrapper" onclick="zoomMap()">
+                    <img src="https://filethcs.hcm.shieldixcloud.com/UploadImages/news//2026/thcsnguyengiathieu/admin/2026_1/27/61949992813680587484537895478649237640618104n_2712026163.jpg?w=1130" id="map-img-main" alt="Sơ đồ gian hàng">
                 </div>
                 <div class="map-note animate__animated animate__pulse animate__infinite">
                     📍 CHÚNG MÌNH Ở ĐÂY: GIAN HÀNG SỐ 03
@@ -597,6 +608,21 @@
             if (event.target == document.getElementById('modal')) closeModal();
             if (event.target == document.getElementById('login-modal')) toggleLoginModal();
         }
+
+        // Hàm phóng to bản đồ
+        window.zoomMap = function() {
+            const mainMapSrc = document.getElementById('map-img-main').src;
+            
+            // Tận dụng Modal có sẵn trong file của bạn
+            document.getElementById('modal-title').innerText = "SƠ ĐỒ GIAN HÀNG HỘI XUÂN";
+            document.getElementById('modal-desc').innerText = "Gian hàng 9A5 của tụi mình nằm ở vị trí số 3 nha!";
+            document.getElementById('modal-price').innerText = ""; // Ẩn giá tiền
+            document.getElementById('modal-img').src = mainMapSrc;
+            
+            // Hiển thị modal
+            document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Chặn cuộn trang khi đang xem ảnh
+        };
     </script>
 </body>
 </html>
