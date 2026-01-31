@@ -195,13 +195,41 @@
 
     <section id="menu" style="background: #fff; padding: 40px 0;">
         <div class="container">
-            <div class="section-title"><h2>Thực Đơn Ngũ Sắc</h2></div>
+            <div class="section-title"><h2>Thực Đơn Độc Bản</h2></div>
+            <p style="text-align: center; margin-top: -30px; margin-bottom: 30px; font-style: italic; color: #666;">
+                Sản phẩm chủ đạo: <b>Gỏi Cuốn Tôm Thịt</b> - Tươi ngon, đậm vị "nhà làm"!
+            </p>
+            
             <div class="menu-grid">
-                <div class="card" onclick="showDetail('tom-thit')"><h3>Gỏi Cuốn Tôm Thịt</h3><div class="card-price">10.000đ</div></div>
-                <div class="card" onclick="showDetail('nem-nuong')"><h3>Gỏi Cuốn Nem Nướng</h3><div class="card-price">10.000đ</div></div>
-                <div class="card" onclick="showDetail('bi')"><h3>Gỏi Cuốn Bì</h3><div class="card-price">10.000đ</div></div>
-                <div class="card" onclick="showDetail('trung')"><h3>Gỏi Cuốn Trứng</h3><div class="card-price">10.000đ</div></div>
-                <div class="card" onclick="showDetail('tai-heo')"><h3>Gỏi Cuốn Tai Heo</h3><div class="card-price">10.000đ</div></div>
+                <div class="card" onclick="showDetail('le')">
+                    <div class="badge-hot" style="background: var(--primary); color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.8rem; margin-bottom: 10px; display: inline-block;">ĂN THỬ</div>
+                    <h3>Gỏi Cuốn Tôm Thịt</h3>
+                    <div class="card-price">6.000đ/cuốn</div>
+                    <p style="font-size: 0.9rem; color: #777; margin-top: 10px;">Tôm tươi, thịt thơm, rau sạch.</p>
+                </div>
+
+                <div class="card" style="border: 2px solid var(--secondary); background: #fffdf5;" onclick="showDetail('combo15')">
+                    <div class="badge-hot" style="background: var(--secondary); color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.8rem; margin-bottom: 10px; display: inline-block;">SIÊU HOT</div>
+                    <h3>COMBO TRẢI NGHIỆM</h3>
+                    <div class="card-price">15.000đ</div>
+                    <ul style="text-align: left; font-size: 0.95rem; line-height: 1.6; color: #444; padding-left: 20px;">
+                        <li>01 Gỏi cuốn tôm thịt</li>
+                        <li>01 Lượt chơi Game hội xuân</li>
+                        <li>01 <b>Phần quà Bí Mật</b> 🎁</li>
+                    </ul>
+                    <small style="color: var(--secondary); font-weight: bold;">Tiết kiệm & Vui vẻ!</small>
+                </div>
+
+                <div class="card" style="border: 2px solid var(--primary);" onclick="showDetail('combo25')">
+                    <div class="badge-hot" style="background: var(--primary); color: white; padding: 5px 10px; border-radius: 10px; font-size: 0.8rem; margin-bottom: 10px; display: inline-block;">TIẾT KIỆM</div>
+                    <h3>COMBO NO NÊ</h3>
+                    <div class="card-price">25.000đ</div>
+                    <ul style="text-align: left; font-size: 0.95rem; line-height: 1.6; color: #444; padding-left: 20px;">
+                        <li>03 Gỏi cuốn tôm thịt</li>
+                        <li>Sốt chấm đặc biệt</li>
+                    </ul>
+                    <p style="font-weight: bold; color: var(--primary);">Rủ bạn mua chung ngay!</p>
+                </div>
             </div>
         </div>
     </section>
@@ -588,11 +616,24 @@
 
         // Hàm hiện menu món ăn (thêm lại nếu bị mất)
         const menuData = {
-            'tom-thit': { title: 'Gỏi Cuốn Tôm Thịt', desc: 'Tôm thịt tươi ngon.', price: '10.000đ', img: 'https://cdn.tgdd.vn/Files/2021/10/21/1392444/tong-hop-8-cach-lam-goi-cuon-ngon-hap-dan-sieu-de-lam-tai-nha-202110211125270560.jpg' },
-            'nem-nuong': { title: 'Gỏi Cuốn Nem Nướng', desc: 'Nem nướng thơm lừng.', price: '10.000đ', img: 'https://nemnuonghungviet.com/nemhungviet/uploads/2024/12/goi-cuon-nem-nuong.jpg' },
-            'bi': { title: 'Gỏi Cuốn Bì', desc: 'Bì heo dai giòn.', price: '10.000đ', img: 'https://afamilycdn.com/thumb_w/650/150157425591193600/2021/3/19/bi-cuon99-1-1616150003378626234564.jpg' },
-            'trung': { title: 'Gỏi Cuốn Trứng', desc: 'Trứng chiên vàng ươm.', price: '10.000đ', img: 'https://image.eatencdn.com/image/801b0cd5-3da6-4413-9265-7fad9189eb13/small/image.jpg' },
-            'tai-heo': { title: 'Gỏi Cuốn Tai Heo', desc: 'Tai heo giòn sần sật.', price: '10.000đ', img: 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2024_1_20_638413447115599304_tai-heo-cuon-banh-trang.jpg' }
+            'le': { 
+                title: 'Gỏi Cuốn Tôm Thịt', 
+                desc: 'Sự kết hợp hoàn hảo giữa tôm tươi bóc vỏ, thịt ba chỉ thơm ngon và rau sống thanh mát. Chấm cùng nước sốt tương đen bí truyền của 9A5.', 
+                price: '6.000đ', 
+                img: 'https://cdn.tgdd.vn/Files/2021/10/21/1392444/tong-hop-8-cach-lam-goi-cuon-ngon-hap-dan-sieu-de-lam-tai-nha-202110211125270560.jpg' 
+            },
+            'combo15': { 
+                title: 'Combo Trải Nghiệm', 
+                desc: 'Vừa ăn vừa chơi, đánh rơi mệt mỏi! Bạn sẽ nhận được 1 gỏi cuốn + 1 vé tham gia trò chơi (Ném banh dính/Vòng quay may mắn/Bốc thăm trúng thưởng) + 1 phần quà bí ẩn từ 9A5. Bật mí: Món quà này có thể giúp bạn "giải nghiệp" hoặc "thoát ế" đó nha!', 
+                price: '15.000đ', 
+                img: 'https://img.freepik.com/premium-vector/surprise-gift-box-concept-open-gift-box-with-confetti-explosion-inside_435184-1110.jpg' 
+            },
+            'combo25': { 
+                title: 'Combo No Nê', 
+                desc: 'Dành cho những tâm hồn ăn uống bất tận. 3 cuốn gỏi tôm thịt chất lượng cao với mức giá ưu đãi hơn hẳn mua lẻ. Ăn cùng hội bạn thân thì còn gì bằng!', 
+                price: '25.000đ', 
+                img: 'https://i.ytimg.com/vi/vF0lXN_T62A/maxresdefault.jpg' 
+            }
         };
         
         window.showDetail = function(id) {
@@ -632,14 +673,11 @@
 
         // 2. Hàm đóng Modal (Dùng chung cho cả món ăn và bản đồ)
         window.closeModal = function() {
-            const modal = document.getElementById('modal');
-            const modalContent = modal.querySelector('.modal-content');
-
-            modal.style.display = 'none';
-            // Xóa class phóng to để lần sau xem món ăn không bị lỗi
-            modalContent.classList.remove('full-map'); 
+            document.getElementById('modal').style.display = 'none';
+            const modalContent = document.getElementById('modal').querySelector('.modal-content');
+            if(modalContent) modalContent.classList.remove('full-map');
             
-            // MỞ KHÓA CUỘN TRANG (Sửa lỗi của bạn ở đây)
+            // ĐÂY LÀ DÒNG QUAN TRỌNG ĐỂ HẾT BỊ LỖI SCROLL
             document.body.style.overflow = 'auto'; 
         };
 
